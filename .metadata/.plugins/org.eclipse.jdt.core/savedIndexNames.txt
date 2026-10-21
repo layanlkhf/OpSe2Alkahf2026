@@ -1,0 +1,4 @@
+INDEX VERSION 1.134+C:\Users\alkah\OneDrive\Desktop\HS BO\5. Semester\OOP\.metadata\.plugins\org.eclipse.jdt.core
+1288848795.index
+2774293835.index
+1865797976.index

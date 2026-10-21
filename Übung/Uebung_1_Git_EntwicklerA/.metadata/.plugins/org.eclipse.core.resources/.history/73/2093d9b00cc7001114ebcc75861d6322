@@ -1,0 +1,7 @@
+package oop;
+
+public class AnwendungssystemControl {
+
+	private AnwendungssystemModel anwModel;
+	private AnwendungssystemView anwView;
+}
