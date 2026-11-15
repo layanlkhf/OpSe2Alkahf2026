@@ -1,0 +1,100 @@
+MVC-Umstellung – Freizeitbäder (Schritte)
+
+------------
+DAVOR  für CSV EXPORT LIES GANZ UNTEN
+-----------
+
+
+1. Main.java: Aufruf von FreizeitbaederAnwendersystem durch FreizeitbaederControl ersetzt.
+
+2. FreizeitbaederModel.java: Neue Klasse im Package business erstellt. Attribut Freizeitbad sowie Getter und Setter hinzugefügt.
+
+3. FreizeitbaederControl.java: Neue Klasse erstellt. Konstruktor erstellt Model und View.
+
+4. FreizeitbaederView.java: Neue Klasse erstellt. GUI-Attribute und initKomponenten() aus der alten Klasse übernommen.
+
+5. View-Konstruktor: Controller, Stage und Model als Parameter übergeben.
+
+6. View: Getter für die fünf Textfelder erstellt, damit der Controller auf die Eingaben zugreifen kann.
+
+7. Controller: Methode nehmeFreizeitbadAuf() erstellt. Liest Eingaben über die View, erstellt das Freizeitbad und speichert es über den Model-Setter. Fehlerbehandlung mit try/catch.
+
+8. View: initListener() angepasst, damit der Eingabe-Button den Controller aufruft.
+
+9. View: zeigeFreizeitbaederAn() für die Anzeige der gespeicherten Daten ergänzt.
+
+10. View: Methoden für Informations- und Fehlermeldungen übernommen.
+
+11. Test: JavaFX-Konfiguration angepasst und Programmstart vorbereitet.
+
+
+--------------------------CSV EXPORT
+
+
+IN model : 
+
+
+public void schreibeFreizeitbaederInCsvDatei()
+        throws IOException {
+
+    BufferedWriter aus = new BufferedWriter(
+        new FileWriter("Freizeitbaeder.csv", true));
+
+    aus.write(this.getFreizeitbad().gibFreizeitbadZurueck(';'));
+    aus.newLine();
+    aus.close();
+}
+
+
+
+----- 
+In control: 
+
+
+public void schreibeFreizeitbaederInDatei(String typ) {
+    try {
+        if ("csv".equals(typ)) {
+            freizeitbaederModel.schreibeFreizeitbaederInCsvDatei();
+
+            freizeitbaederView.zeigeInformationsfensterAn(
+                "Das Freizeitbad wurde gespeichert!"
+            );
+        }
+        else {
+            freizeitbaederView.zeigeInformationsfensterAn(
+                "Noch nicht implementiert!"
+            );
+        }
+    }
+    catch (IOException exc) {
+        freizeitbaederView.zeigeFehlermeldungsfensterAn(
+            "Speicher", "IOException beim Speichern!"
+        );
+    }
+    catch (Exception exc) {
+        freizeitbaederView.zeigeFehlermeldungsfensterAn(
+            "Speicher", "Unbekannter Fehler beim Speichern!"
+        );
+    }
+}
+
+
+-----
+
+In view : 
+A ). Neue Methode hinzufügen:
+
+private void schreibeFreizeitbaederInDatei(String typ) {
+    freizeitbaederControl.schreibeFreizeitbaederInDatei(typ);
+}
+
+
+B). In initListener() hinzufügen:
+
+
+mnItmCsvExport.setOnAction(new EventHandler<ActionEvent>() {
+    @Override
+    public void handle(ActionEvent e) {
+        schreibeFreizeitbaederInDatei("csv");
+    }
+});
