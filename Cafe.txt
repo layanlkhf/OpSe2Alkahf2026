@@ -1,0 +1,5 @@
+Essen Cafe
+Bahnhofstraße
+Ein Cafe in Essen
+false
+Milchkaffee_Latte
